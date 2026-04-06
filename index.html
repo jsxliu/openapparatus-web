@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Open Apparatus — Mechanical Engineering for the AI Era</title>
+    <title>Open Apparatus | Open-Source STEM Hardware</title>
     <meta
       name="description"
       content="Open-source, 3D-printable physics hardware and hands-on workshops for the next generation of engineers."
@@ -40,6 +40,84 @@
     <style>
       body {
         font-family: "Inter", system-ui, sans-serif;
+      }
+
+      #featured-project {
+        text-align: center;
+        padding: 5rem 1.25rem;
+        border-top: 1px solid rgba(30, 42, 63, 0.8);
+        background: rgba(12, 18, 32, 0.4);
+      }
+
+      #featured-project h2 {
+        margin: 0 auto 1.75rem;
+        max-width: 42rem;
+        font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: #f8fafc;
+      }
+
+      #featured-project img {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: min(100%, 800px);
+        height: auto;
+        border-radius: 8px;
+        box-shadow:
+          0 20px 40px -12px rgba(0, 0, 0, 0.45),
+          0 0 0 1px rgba(56, 189, 248, 0.1);
+      }
+
+      #featured-project p {
+        margin: 1.75rem auto 0;
+        max-width: 40rem;
+        font-size: 1rem;
+        line-height: 1.7;
+        color: #94a3b8;
+      }
+
+      @media (min-width: 640px) {
+        #featured-project {
+          padding: 5.5rem 1.5rem;
+        }
+
+        #featured-project p {
+          font-size: 1.125rem;
+        }
+      }
+
+      #educational-philosophy {
+        text-align: center;
+        padding: 60px 20px;
+        background: #e8edf4;
+        border-top: 1px solid rgba(30, 58, 95, 0.12);
+        border-bottom: 1px solid rgba(30, 58, 95, 0.08);
+      }
+
+      #educational-philosophy h2 {
+        margin: 0 0 1.5rem;
+        font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: #0f172a;
+      }
+
+      #educational-philosophy p {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 1.0625rem;
+        line-height: 1.75;
+        color: #334155;
+      }
+
+      @media (min-width: 640px) {
+        #educational-philosophy p {
+          font-size: 1.125rem;
+        }
       }
     </style>
   </head>
@@ -189,7 +267,7 @@
               class="relative aspect-[4/3] w-full overflow-hidden rounded-xl border border-line bg-white ring-1 ring-white/10 shadow-2xl shadow-black/40"
             >
               <img
-                src="hero-image.png"
+                src="hero-image.jpeg"
                 alt="Open Apparatus Lenz’s Law demonstrator: parallel copper and acrylic tubes with 3D-printed end caps and stand"
                 class="h-full w-full object-contain object-center"
                 width="1600"
@@ -344,6 +422,33 @@
             </li>
           </ul>
         </div>
+      </section>
+
+      <section id="featured-project">
+        <h2>Featured Project: Earth Day 3D Sculptures</h2>
+        <img
+          src="earth_day_sculpture.JPG"
+          alt="Dual 3D-printed Earth Day sculptures contrasting plastic pollution with a healthy ocean ecosystem."
+          loading="lazy"
+          decoding="async"
+        />
+        <p>
+          Built using our upcoming open-source CAD files, the sculptures
+          visually contrast the impact of plastic pollution with a healthy
+          ocean ecosystem.
+        </p>
+      </section>
+
+      <section id="educational-philosophy">
+        <h2>Our Educational Philosophy</h2>
+        <p>
+          Open Apparatus is built to be a catalyst, not a replacement. Our
+          open-source hardware is strictly auxiliary—designed to seamlessly
+          supplement formal classroom instruction, collegiate coursework, and
+          professional training. We exist to empower educators with tangible
+          tools that bridge the gap between abstract textbook theory and
+          physical engineering reality.
+        </p>
       </section>
     </main>
 
