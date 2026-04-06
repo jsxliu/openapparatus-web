@@ -457,14 +457,34 @@
     </main>
 
     <footer class="border-t border-line py-10">
-      <div
-        class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-center text-sm text-slate-500 sm:flex-row sm:px-6 sm:text-left lg:px-8"
-      >
-        <p>© Open Apparatus. Open hardware for STEM.</p>
-        <div class="flex flex-wrap justify-center gap-6">
-          <a href="#mission" class="hover:text-sky-400">Mission</a>
-          <a href="#founder" class="hover:text-sky-400">Founder</a>
-          <a href="#hardware" class="hover:text-sky-400">Hardware</a>
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex flex-col items-center justify-between gap-8 text-center sm:flex-row sm:items-center sm:gap-6 sm:text-left"
+        >
+          <div
+            class="flex max-w-3xl flex-col gap-4 text-sm text-slate-500 sm:min-w-0 sm:flex-1"
+          >
+            <p>
+              © 2026 Open Apparatus. Hardware designs are released under the
+              CERN-OHL-W-2.0 License. Website content and educational materials
+              are provided for open educational use.
+            </p>
+            <p class="text-xs leading-relaxed text-slate-500">
+              Privacy Policy: Open Apparatus respects student privacy. We do not
+              use tracking cookies, collect personal information, or sell user
+              data. We utilize a privacy-first analytics tool to measure
+              anonymous page views solely to improve our open-source hardware
+              outreach.
+            </p>
+          </div>
+          <nav
+            class="flex flex-shrink-0 flex-wrap justify-center gap-6 text-sm text-slate-500 sm:justify-end"
+            aria-label="Footer"
+          >
+            <a href="#mission" class="hover:text-sky-400">Mission</a>
+            <a href="#founder" class="hover:text-sky-400">Founder</a>
+            <a href="#hardware" class="hover:text-sky-400">Hardware</a>
+          </nav>
         </div>
       </div>
     </footer>
@@ -519,5 +539,6 @@
         syncForViewport();
       })();
     </script>
+    <script data-goatcounter="https://openapparatus.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   </body>
 </html>
