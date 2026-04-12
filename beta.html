@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenApparatus | Classroom Beta-Testing Program</title>
+    <meta
+      name="description"
+      content="Open-source, 3D-printable physics hardware and hands-on workshops for the next generation of engineers."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "system-ui", "sans-serif"],
+            },
+            colors: {
+              void: "#05080f",
+              panel: "#0c1220",
+              line: "#1e2a3f",
+              accent: "#38bdf8",
+              accentDim: "#0ea5e9",
+            },
+            backgroundImage: {
+              "grid-tech":
+                "linear-gradient(to right, rgba(56, 189, 248, 0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(56, 189, 248, 0.06) 1px, transparent 1px)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+  </head>
+  <body
+    class="min-h-screen bg-void text-slate-200 antialiased selection:bg-sky-500/30 selection:text-sky-100"
+  >
+    <!-- Ambient background -->
+    <div
+      class="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(14,165,233,0.15),transparent)]"
+      aria-hidden="true"
+    ></div>
+    <div
+      class="pointer-events-none fixed inset-0 bg-grid-tech bg-[length:48px_48px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)]"
+      aria-hidden="true"
+    ></div>
+
+    <header
+      class="sticky top-0 z-50 border-b border-line/80 bg-void/75 backdrop-blur-xl"
+    >
+      <nav
+        class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8"
+        aria-label="Primary"
+      >
+        <a
+          href="index.html"
+          class="group flex items-center gap-2 font-semibold tracking-tight text-white"
+        >
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded border border-sky-500/40 bg-sky-500/10 text-xs font-bold text-sky-400 transition group-hover:border-sky-400/60 group-hover:bg-sky-500/15"
+            >OA</span
+          >
+          <span class="hidden sm:inline">OpenApparatus</span>
+        </a>
+
+        <div
+          id="nav-links"
+          class="absolute left-0 right-0 top-full hidden flex-col border-b border-line bg-void/95 px-4 py-4 backdrop-blur-xl sm:static sm:flex sm:flex-row sm:items-center sm:gap-8 sm:border-0 sm:bg-transparent sm:p-0"
+        >
+          <a
+            href="index.html#mission"
+            class="py-2 text-sm font-medium text-slate-400 transition hover:text-sky-400 sm:py-0"
+            >Mission</a
+          >
+          <a
+            href="index.html#founder"
+            class="py-2 text-sm font-medium text-slate-400 transition hover:text-sky-400 sm:py-0"
+            >Founder</a
+          >
+          <a
+            href="index.html#hardware"
+            class="py-2 text-sm font-medium text-slate-400 transition hover:text-sky-400 sm:py-0"
+            >Hardware</a
+          >
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a
+            href="index.html#hero"
+            class="hidden rounded-md border border-line bg-panel/50 px-3 py-2 text-xs font-medium text-slate-300 transition hover:border-sky-500/40 hover:text-white md:inline-flex"
+            >Top</a
+          >
+          <button
+            type="button"
+            id="menu-toggle"
+            class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-line bg-panel/50 text-slate-300 hover:border-sky-500/40 hover:text-white sm:hidden"
+            aria-expanded="false"
+            aria-controls="nav-links"
+            aria-label="Open menu"
+          >
+            <svg
+              class="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <article class="beta-page">
+        <h1>OpenApparatus Classroom Beta-Testing Program</h1>
+        <p>
+          We believe that high-fidelity physics equipment should not be locked
+          behind a $300 commercial price tag. To support STEM educators,
+          OpenApparatus is currently manufacturing and donating limited
+          quantities of our state-of-the-art Dual-Tube Lenz's Law Demonstrators directly to
+          public school classrooms.
+        </p>
+        <h3>How it works:</h3>
+        <ol>
+          <li>
+            Apply below to request a class set (subject to manufacturing
+            availability).
+          </li>
+          <li>
+            We manufacture and ship the fully assembled hardware to your school
+            at zero cost.
+          </li>
+          <li>
+            Your students use the tactile models to master electromagnetic
+            induction.
+          </li>
+          <li>
+            You provide us with 5 minutes of feedback to help us engineer the next
+            iteration.
+          </li>
+        </ol>
+        <p class="beta-priority-note">
+          <em
+            >Note: We currently prioritize fulfillment for Title I schools and
+            underfunded public districts.</em
+          >
+        </p>
+
+        <!-- Paste embeddable beta application form markup here -->
+        <div
+          class="beta-form-slot"
+          id="beta-application-form-placeholder"
+          aria-label="Beta application form">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeHZnKhQ4zXlFLzlHlTRCg2FeW0b9SNu8MmQLlpD95HXFXOCg/viewform?embedded=true" width="100%" height="1832" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        ></div>
+      </article>
+    </main>
+
+    <footer class="border-t border-line py-10">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex flex-col items-center justify-between gap-8 text-center sm:flex-row sm:items-center sm:gap-6 sm:text-left"
+        >
+          <div
+            class="flex max-w-3xl flex-col gap-4 text-sm text-slate-500 sm:min-w-0 sm:flex-1"
+          >
+            <p>
+              © 2026 OpenApparatus. Hardware designs are released under the
+              CERN-OHL-W-2.0 License. Website content and educational materials
+              are provided for open educational use.
+            </p>
+            <p class="text-xs leading-relaxed text-slate-500">
+              Privacy Policy: OpenApparatus respects student privacy. We do not
+              use tracking cookies, collect personal information, or sell user
+              data. We utilize a privacy-first analytics tool to measure
+              anonymous page views solely to improve our open-source hardware
+              outreach.
+            </p>
+          </div>
+          <nav
+            class="flex flex-shrink-0 flex-wrap justify-center gap-6 text-sm text-slate-500 sm:justify-end"
+            aria-label="Footer"
+          >
+            <a href="index.html#mission" class="hover:text-sky-400">Mission</a>
+            <a href="index.html#founder" class="hover:text-sky-400">Founder</a>
+            <a href="index.html#hardware" class="hover:text-sky-400"
+              >Hardware</a
+            >
+          </nav>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        var toggle = document.getElementById("menu-toggle");
+        var links = document.getElementById("nav-links");
+        if (!toggle || !links) return;
+
+        function isMobile() {
+          return window.matchMedia("(max-width: 639px)").matches;
+        }
+
+        function setOpen(open) {
+          if (isMobile()) {
+            links.classList.toggle("hidden", !open);
+            links.classList.toggle("flex", open);
+          }
+          toggle.setAttribute("aria-expanded", open ? "true" : "false");
+          toggle.setAttribute(
+            "aria-label",
+            open ? "Close menu" : "Open menu"
+          );
+        }
+
+        function syncForViewport() {
+          if (isMobile()) {
+            links.classList.add("hidden");
+            links.classList.remove("flex");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.setAttribute("aria-label", "Open menu");
+          } else {
+            links.classList.remove("hidden", "flex");
+            toggle.setAttribute("aria-expanded", "false");
+          }
+        }
+
+        toggle.addEventListener("click", function () {
+          if (!isMobile()) return;
+          var open = links.classList.contains("hidden");
+          setOpen(open);
+        });
+
+        links.querySelectorAll("a").forEach(function (a) {
+          a.addEventListener("click", function () {
+            if (isMobile()) setOpen(false);
+          });
+        });
+
+        window.addEventListener("resize", syncForViewport);
+        syncForViewport();
+      })();
+    </script>
+    <script data-goatcounter="https://openapparatus.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  </body>
+</html>
