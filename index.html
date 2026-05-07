@@ -351,38 +351,29 @@
         </div>
       </section>
 
-      <section id="featured-project">
-        <div class="featured-project-grid">
-          <article class="featured-project-card">
-            <h2>Featured Project: Earth Day 3D Sculptures</h2>
-            <img
-              src="assets/images/earth_day_sculpture.jpg"
-              alt="Dual 3D-printed Earth Day sculptures contrasting plastic pollution with a healthy ocean ecosystem."
-              loading="lazy"
-              decoding="async"
-            />
-            <p>
-              Built using our upcoming open-source CAD files, the sculptures
-              visually contrast the impact of plastic pollution with a healthy
-              ocean ecosystem.
+      <!-- National Deployment Map -->
+      <section
+        id="deployment-map"
+        class="relative border-t border-line/80 bg-panel/40 py-20 sm:py-24"
+      >
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div class="max-w-3xl">
+            <h2
+              class="text-sm font-semibold uppercase tracking-widest text-sky-400"
+            >
+              National Deployment Map
+            </h2>
+            <p class="mt-6 text-base leading-relaxed text-slate-400 sm:text-lg">
+              Tracking OpenApparatus beta units shipped to universities,
+              museums, and high schools.
             </p>
-          </article>
-          <article class="featured-project-card">
-            <h2>Non-Congruent Isospectral Polygons</h2>
-            <img
-              src="assets/images/non_congruent_iso_spectral_pologyons.jpg"
-              alt="3D printed non-congruent isospectral polygons in full-color Nylon Multi Jet Fusion"
-              loading="lazy"
-              decoding="async"
-            />
-            <p>
-              Printed using our upcoming open-source 3D files, based on
-              classical non-congruent isospectral polygons rediscovered by the
-              founder using modernized computational methods, these full-color
-              Nylon Multi Jet Fusion printed pieces showcase the beauty of
-              mathematical science and modern engineering.
-            </p>
-          </article>
+          </div>
+
+          <div
+            id="regions_div"
+            style="width: 100%; max-width: 900px; height: 500px; margin: 0 auto;"
+            class="mt-12 rounded-2xl border border-line bg-void/40 p-2 ring-1 ring-white/5"
+          ></div>
         </div>
       </section>
 
@@ -431,6 +422,8 @@
         </div>
       </div>
     </footer>
+
+    <script data-goatcounter="https://openapparatus.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
     <script>
       (function () {
@@ -482,6 +475,94 @@
         syncForViewport();
       })();
     </script>
-    <script data-goatcounter="https://openapparatus.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+      (async function () {
+        google.charts.load("current", { packages: ["geochart"] });
+
+        const csvUrl =
+          "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8vlwUOGxfMXL2MtGLrHXRAc6b2d2ltuOYbnDJi6OfVumcK4FKXGv_0wPOQWPn09yRhPkXtsHUKmQ4/pub?gid=0&single=true&output=csv";
+
+        function parseCSV(text) {
+          const rows = [];
+          let row = [];
+          let field = "";
+          let inQuotes = false;
+
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            const next = text[i + 1];
+
+            if (c === "\"") {
+              if (inQuotes && next === "\"") {
+                field += "\"";
+                i++;
+              } else {
+                inQuotes = !inQuotes;
+              }
+              continue;
+            }
+
+            if (!inQuotes && (c === "," || c === "\n" || c === "\r")) {
+              if (c === "\r" && next === "\n") i++;
+              row.push(field);
+              field = "";
+              if (c !== ",") {
+                if (row.some((v) => v.trim() !== "")) rows.push(row);
+                row = [];
+              }
+              continue;
+            }
+
+            field += c;
+          }
+
+          row.push(field);
+          if (row.some((v) => v.trim() !== "")) rows.push(row);
+          return rows;
+        }
+
+        async function drawDeploymentMap() {
+          const container = document.getElementById("regions_div");
+          if (!container) return;
+
+          const res = await fetch(csvUrl, { cache: "no-store" });
+          if (!res.ok) throw new Error("Failed to fetch map CSV: " + res.status);
+          const csvText = await res.text();
+
+          const rows = parseCSV(csvText);
+          if (rows.length < 2) return;
+
+          const data = new google.visualization.DataTable();
+          data.addColumn("string", rows[0][0] || "State");
+          data.addColumn("number", rows[0][1] || "Qty");
+
+          const body = rows.slice(1).map((r) => {
+            const state = (r[0] || "").trim();
+            const qtyRaw = (r[1] || "").trim();
+            const qty = qtyRaw === "" ? 0 : Number(qtyRaw);
+            return [state, Number.isFinite(qty) ? qty : 0];
+          });
+
+          data.addRows(body);
+
+          const chart = new google.visualization.GeoChart(container);
+          chart.draw(data, {
+            region: "US",
+            resolution: "provinces",
+            backgroundColor: "transparent",
+            colorAxis: {
+              colors: ["#bbf7d0", "#22c55e", "#14532d"],
+            },
+          });
+        }
+
+        google.charts.setOnLoadCallback(function () {
+          drawDeploymentMap();
+          window.addEventListener("resize", drawDeploymentMap);
+        });
+      })();
+    </script>
   </body>
 </html>
