@@ -351,7 +351,7 @@
         </div>
       </section>
 
-      <!-- National Deployment Map -->
+      <!-- Deployment Map -->
       <section
         id="deployment-map"
         class="relative border-t border-line/80 bg-panel/40 py-20 sm:py-24"
@@ -361,12 +361,32 @@
             <h2
               class="text-sm font-semibold uppercase tracking-widest text-sky-400"
             >
-              National Deployment Map
+              Deployment Map
             </h2>
             <p class="mt-6 text-base leading-relaxed text-slate-400 sm:text-lg">
               Tracking OpenApparatus beta units shipped to universities,
-              museums, and high schools.
+              museums, and high schools across the United States and abroad.
             </p>
+
+            <div
+              id="deployment-total"
+              class="mt-8 hidden rounded-xl border border-line bg-void/40 px-6 py-4 ring-1 ring-white/5 sm:inline-flex sm:flex-col"
+              aria-live="polite"
+            >
+              <span
+                class="text-xs font-semibold uppercase tracking-widest text-sky-400/80"
+                >Total units deployed</span
+              >
+              <span
+                id="deployment-total-count"
+                class="mt-1 text-3xl font-semibold tabular-nums text-white"
+                >—</span
+              >
+              <span
+                id="deployment-total-breakdown"
+                class="mt-2 text-sm text-slate-500"
+              ></span>
+            </div>
           </div>
 
           <div
@@ -374,6 +394,17 @@
             style="width: 100%; max-width: 900px; height: 500px; margin: 0 auto;"
             class="mt-12 rounded-2xl border border-line bg-void/40 p-2 ring-1 ring-white/5"
           ></div>
+
+          <div id="international-map-wrap" class="mt-10 hidden max-w-3xl">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-sky-400/80">
+              International Deployments
+            </h3>
+            <div
+              id="international_regions_div"
+              style="width: 100%; max-width: 900px; height: 320px; margin: 0 auto;"
+              class="mt-4 rounded-2xl border border-line bg-void/40 p-2 ring-1 ring-white/5"
+            ></div>
+          </div>
         </div>
       </section>
 
@@ -523,9 +554,73 @@
           return rows;
         }
 
+        const INTERNATIONAL_LOCATIONS = new Set([
+          "canada",
+          "ca",
+          "china",
+          "cn",
+        ]);
+
+        function isInternationalLocation(name) {
+          return INTERNATIONAL_LOCATIONS.has(name.trim().toLowerCase());
+        }
+
+        function parseRows(rows) {
+          return rows.slice(1).map((r) => {
+            const location = (r[0] || "").trim();
+            const qtyRaw = (r[1] || "").trim();
+            const qty = qtyRaw === "" ? 0 : Number(qtyRaw);
+            return [location, Number.isFinite(qty) ? qty : 0];
+          });
+        }
+
+        function drawGeoChart(container, chartRows, options) {
+          const data = new google.visualization.DataTable();
+          data.addColumn("string", "Location");
+          data.addColumn("number", "Qty");
+          data.addRows(chartRows);
+
+          const chart = new google.visualization.GeoChart(container);
+          chart.draw(data, {
+            backgroundColor: "transparent",
+            colorAxis: {
+              colors: ["#bbf7d0", "#22c55e", "#14532d"],
+            },
+            ...options,
+          });
+        }
+
+        function sumQty(chartRows) {
+          return chartRows.reduce((total, [, qty]) => total + qty, 0);
+        }
+
+        function updateDeploymentTotal(parsed, usRows, intlRows) {
+          const totalWrap = document.getElementById("deployment-total");
+          const totalCount = document.getElementById("deployment-total-count");
+          const breakdown = document.getElementById("deployment-total-breakdown");
+          if (!totalWrap || !totalCount || !breakdown) return;
+
+          const total = sumQty(parsed);
+          const usTotal = sumQty(usRows);
+          const intlTotal = sumQty(intlRows);
+          const locationCount = parsed.filter(([, qty]) => qty > 0).length;
+
+          totalCount.textContent = total.toLocaleString();
+          breakdown.textContent =
+            locationCount +
+            (locationCount === 1 ? " location" : " locations") +
+            " · United States: " +
+            usTotal.toLocaleString() +
+            " · International: " +
+            intlTotal.toLocaleString();
+          totalWrap.classList.remove("hidden");
+        }
+
         async function drawDeploymentMap() {
-          const container = document.getElementById("regions_div");
-          if (!container) return;
+          const usContainer = document.getElementById("regions_div");
+          const intlContainer = document.getElementById("international_regions_div");
+          const intlWrap = document.getElementById("international-map-wrap");
+          if (!usContainer || !intlContainer || !intlWrap) return;
 
           const res = await fetch(csvUrl, { cache: "no-store" });
           if (!res.ok) throw new Error("Failed to fetch map CSV: " + res.status);
@@ -534,28 +629,28 @@
           const rows = parseCSV(csvText);
           if (rows.length < 2) return;
 
-          const data = new google.visualization.DataTable();
-          data.addColumn("string", rows[0][0] || "State");
-          data.addColumn("number", rows[0][1] || "Qty");
+          const parsed = parseRows(rows);
+          const usRows = parsed.filter(([location]) => !isInternationalLocation(location));
+          const intlRows = parsed.filter(([location]) => isInternationalLocation(location));
 
-          const body = rows.slice(1).map((r) => {
-            const state = (r[0] || "").trim();
-            const qtyRaw = (r[1] || "").trim();
-            const qty = qtyRaw === "" ? 0 : Number(qtyRaw);
-            return [state, Number.isFinite(qty) ? qty : 0];
-          });
+          updateDeploymentTotal(parsed, usRows, intlRows);
 
-          data.addRows(body);
+          if (usRows.length) {
+            drawGeoChart(usContainer, usRows, {
+              region: "US",
+              resolution: "provinces",
+            });
+          }
 
-          const chart = new google.visualization.GeoChart(container);
-          chart.draw(data, {
-            region: "US",
-            resolution: "provinces",
-            backgroundColor: "transparent",
-            colorAxis: {
-              colors: ["#bbf7d0", "#22c55e", "#14532d"],
-            },
-          });
+          if (intlRows.length) {
+            intlWrap.classList.remove("hidden");
+            drawGeoChart(intlContainer, intlRows, {
+              region: "world",
+              resolution: "countries",
+            });
+          } else {
+            intlWrap.classList.add("hidden");
+          }
         }
 
         google.charts.setOnLoadCallback(function () {
